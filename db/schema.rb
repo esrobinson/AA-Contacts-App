@@ -11,16 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131210194218) do
+ActiveRecord::Schema.define(:version => 20131211002835) do
 
-  create_table "contact_share", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "contact_id", :null => false
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "contact_id"
+    t.string   "comment"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "contact_share", ["user_id"], :name => "index_contact_share_on_user_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "contact_shares", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "contact_id", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.boolean  "favorite"
+  end
+
+  add_index "contact_shares", ["user_id"], :name => "index_contact_share_on_user_id"
 
   create_table "contacts", :force => true do |t|
     t.string   "name",       :null => false
@@ -28,9 +39,28 @@ ActiveRecord::Schema.define(:version => 20131210194218) do
     t.integer  "user_id",    :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "favorite"
   end
 
-  add_index "contacts", ["user_id"], :name => "index_contacts_on_user_id", :unique => true
+  add_index "contacts", ["user_id"], :name => "index_contacts_on_user_id"
+
+  create_table "group_members", :force => true do |t|
+    t.integer  "contact_id"
+    t.integer  "group_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "group_members", ["group_id"], :name => "index_group_members_on_group_id"
+
+  create_table "groups", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "groups", ["user_id"], :name => "index_groups_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name",       :null => false

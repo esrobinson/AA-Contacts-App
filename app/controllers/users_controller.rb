@@ -35,4 +35,7 @@ class UsersController < ApplicationController
       render :json => @user.errors, :status => 418
     end
   end
+
+  def new
+  end
 end
